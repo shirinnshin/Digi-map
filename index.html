@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Down the River — The Adventures of Huckleberry Finn</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bevan&family=Vollkorn:ital,wght@0,400;0,600;0,700;1,400&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <p class="eyebrow">An interactive reading map</p>
+  <h1>Down the River: <span>Huckleberry Finn</span></h1>
+  <p class="subtitle">Follow Huck and Jim's raft from St. Petersburg to the Territory. Tap a lantern on the river to open the scene — with a picture, a spoken narration, and the history behind it.</p>
+  <div class="stageline" id="stageline">
+    <span class="stage-tick" data-stage="Exposition">Exposition</span>
+    <span class="stage-sep"></span>
+    <span class="stage-tick" data-stage="Inciting Incident">Inciting Incident</span>
+    <span class="stage-sep"></span>
+    <span class="stage-tick" data-stage="Rising Action">Rising Action</span>
+    <span class="stage-sep"></span>
+    <span class="stage-tick" data-stage="Climax">Climax</span>
+    <span class="stage-sep"></span>
+    <span class="stage-tick" data-stage="Resolution">Resolution</span>
+  </div>
+</header>
+
+<main>
+  <div class="river-wrap">
+    <h2>The Route</h2>
+    <svg id="river" viewBox="0 0 320 1700" xmlns="http://www.w3.org/2000/svg">
+      <path class="river-path-shadow" d="M160,20 C160,90 60,140 100,280 C140,420 250,400 210,470 C170,540 40,580 90,660 C140,740 260,760 220,850 C180,940 60,960 110,1040 C160,1120 240,1150 200,1230 C160,1310 120,1370 150,1450 C170,1520 150,1580 150,1660"/>
+      <path class="river-path" d="M160,20 C160,90 60,140 100,280 C140,420 250,400 210,470 C170,540 40,580 90,660 C140,740 260,760 220,850 C180,940 60,960 110,1040 C160,1120 240,1150 200,1230 C160,1310 120,1370 150,1450 C170,1520 150,1580 150,1660"/>
+      <path class="raft-trail" d="M160,20 C160,90 60,140 100,280 C140,420 250,400 210,470 C170,540 40,580 90,660 C140,740 260,760 220,850 C180,940 60,960 110,1040 C160,1120 240,1150 200,1230 C160,1310 120,1370 150,1450 C170,1520 150,1580 150,1660"/>
+      <g id="markers"></g>
+    </svg>
+  </div>
+
+  <div class="panel-wrap">
+    <div class="journal" id="journal">
+      <div class="empty-state" id="emptyState">Tap a lantern along the river to begin the journey downstream&nbsp;&mdash;&nbsp;start at Stop 1, St. Petersburg.</div>
+      <div id="journalContent" style="display:none;"></div>
+    </div>
+  </div>
+</main>
+
+<footer>Adapted from Mark Twain's <em>Adventures of Huckleberry Finn</em> (1884/1885) &middot; a reading companion, not a substitute for the novel</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

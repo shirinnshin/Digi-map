@@ -1,0 +1,360 @@
+  :root{
+    --river-deep:#1B3A3F;
+    --river-mid:#3E6E6B;
+    --bank:#8A6642;
+    --paper:#EDE3CF;
+    --paper-dark:#E1D4B8;
+    --ink:#23201B;
+    --lantern:#D4A73A;
+    --rust:#A6412E;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Vollkorn',serif;
+    background-image:
+      radial-gradient(circle at 20% 10%, rgba(62,110,107,0.06), transparent 40%),
+      radial-gradient(circle at 80% 60%, rgba(166,65,46,0.05), transparent 45%);
+  }
+  ::selection{background:var(--lantern); color:var(--ink);}
+
+  /* ---------- HEADER ---------- */
+  header{
+    padding:2.5rem 6vw 1.5rem;
+    border-bottom:3px solid var(--ink);
+    position:relative;
+  }
+  .eyebrow{
+    font-family:'Courier Prime', monospace;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    font-size:0.72rem;
+    color:var(--river-deep);
+    margin:0 0 0.4rem;
+  }
+  h1{
+    font-family:'Bevan', serif;
+    font-weight:400;
+    font-size:clamp(1.9rem, 4.4vw, 3.4rem);
+    margin:0 0 0.5rem;
+    color:var(--ink);
+    line-height:1.05;
+  }
+  h1 span{color:var(--rust);}
+  .subtitle{
+    max-width:52ch;
+    font-style:italic;
+    font-size:1.02rem;
+    color:#4a4436;
+    margin:0 0 1.6rem;
+  }
+
+  /* plot stage ticker */
+  .stageline{
+    display:flex;
+    align-items:center;
+    gap:0;
+    flex-wrap:wrap;
+    font-family:'Courier Prime', monospace;
+    font-size:0.68rem;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+  }
+  .stage-tick{
+    padding:0.35rem 0.8rem;
+    border:1px solid var(--ink);
+    background:transparent;
+    color:var(--ink);
+    opacity:0.45;
+    transition:opacity .35s ease, background .35s ease, color .35s ease;
+    white-space:nowrap;
+  }
+  .stage-tick.active{
+    opacity:1;
+    background:var(--ink);
+    color:var(--paper);
+  }
+  .stage-sep{
+    width:1.4rem;
+    height:1px;
+    background:var(--ink);
+    opacity:0.4;
+  }
+
+  /* ---------- LAYOUT ---------- */
+  main{
+    display:grid;
+    grid-template-columns:min(560px, 46vw) 1fr;
+    gap:0;
+    align-items:start;
+  }
+  @media (max-width:1000px){
+    main{grid-template-columns:1fr;}
+  }
+
+  /* ---------- RIVER MAP ---------- */
+  .river-wrap{
+    position:sticky;
+    top:0;
+    padding:2rem 1rem 2rem 4vw;
+    max-height:100vh;
+    overflow-y:auto;
+    scrollbar-width:thin;
+  }
+  @media (max-width:1000px){
+    .river-wrap{position:static; max-height:75vh; padding:1.5rem 4vw;}
+  }
+  .river-wrap h2{
+    font-family:'Courier Prime', monospace;
+    font-size:0.72rem;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--river-deep);
+    margin:0 0 0.8rem;
+  }
+  svg#river{
+    width:100%;
+    height:auto;
+    display:block;
+  }
+  .river-path{
+    fill:none;
+    stroke:var(--river-mid);
+    stroke-width:16;
+    stroke-linecap:round;
+    opacity:0.9;
+  }
+  .river-path-shadow{
+    fill:none;
+    stroke:var(--river-deep);
+    stroke-width:21;
+    stroke-linecap:round;
+    opacity:0.35;
+  }
+  .raft-trail{
+    fill:none;
+    stroke:var(--paper);
+    stroke-width:1.5;
+    stroke-dasharray:2 7;
+    stroke-linecap:round;
+    opacity:0.85;
+  }
+  .marker{cursor:pointer;}
+  .marker circle.halo{
+    fill:var(--lantern);
+    opacity:0;
+    transition:opacity .3s ease, r .3s ease;
+  }
+  .marker:hover circle.halo, .marker.active circle.halo{
+    opacity:0.35;
+  }
+  .marker circle.dot{
+    fill:var(--paper);
+    stroke:var(--ink);
+    stroke-width:2.5;
+    transition:fill .3s ease, transform .2s ease;
+    transform-origin:center;
+    transform-box: fill-box;
+  }
+  .marker:hover circle.dot, .marker.active circle.dot{
+    fill:var(--lantern);
+    transform:scale(1.15);
+  }
+  .marker text{
+    font-family:'Courier Prime', monospace;
+    font-size:11px;
+    fill:var(--ink);
+  }
+  .marker .num{
+    font-family:'Bevan', serif;
+    font-size:13px;
+    fill:var(--ink);
+    text-anchor:middle;
+    dominant-baseline:central;
+    pointer-events:none;
+  }
+  .marker.active .num{fill:var(--ink);}
+
+  /* ---------- DETAIL PANEL ---------- */
+  .panel-wrap{
+    padding:2rem 6vw 5rem 2.5rem;
+  }
+  @media (max-width:1000px){
+    .panel-wrap{padding:1.5rem 4vw 4rem;}
+  }
+  .journal{
+    background:var(--paper-dark);
+    border:1px solid rgba(35,32,27,0.25);
+    box-shadow:0 18px 40px -22px rgba(27,58,63,0.55);
+    padding:2.2rem clamp(1.2rem,3vw,2.6rem) 2.4rem;
+    position:relative;
+    animation:fadeIn .4s ease;
+  }
+  @keyframes fadeIn{from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);}}
+  .journal::before{
+    content:"";
+    position:absolute;
+    inset:10px;
+    border:1px dashed rgba(35,32,27,0.25);
+    pointer-events:none;
+  }
+  .empty-state{
+    padding:3.5rem 2rem;
+    text-align:center;
+    color:#6b6350;
+    font-style:italic;
+  }
+  .badge-row{
+    display:flex;
+    align-items:center;
+    gap:0.7rem;
+    flex-wrap:wrap;
+    margin-bottom:0.9rem;
+  }
+  .stage-badge{
+    font-family:'Courier Prime', monospace;
+    font-size:0.68rem;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--paper);
+    padding:0.3rem 0.7rem;
+  }
+  .stop-index{
+    font-family:'Courier Prime', monospace;
+    font-size:0.7rem;
+    color:#6b6350;
+  }
+  .journal h3{
+    font-family:'Bevan', serif;
+    font-weight:400;
+    font-size:clamp(1.5rem, 2.6vw, 2.1rem);
+    margin:0 0 0.2rem;
+  }
+  .journal .place-sub{
+    font-style:italic;
+    color:#5a5340;
+    margin:0 0 1.3rem;
+    font-size:0.95rem;
+  }
+  .illustration-frame{
+    border:1px solid var(--ink);
+    background:var(--paper);
+    padding:0.5rem;
+    margin-bottom:0.4rem;
+  }
+  .illustration-frame img{
+    display:block;
+    width:100%;
+    height:280px;
+    object-fit:cover;
+    filter:sepia(0.12) contrast(1.03);
+  }
+  .img-credit{
+    font-family:'Courier Prime', monospace;
+    font-size:0.65rem;
+    letter-spacing:0.04em;
+    color:#6b6350;
+    margin:0 0 1.5rem;
+    text-align:right;
+  }
+  .narration-block{
+    display:flex;
+    gap:0.9rem;
+    align-items:flex-start;
+    margin-bottom:1.8rem;
+  }
+  .play-btn{
+    flex:0 0 auto;
+    width:2.6rem;
+    height:2.6rem;
+    border-radius:50%;
+    border:2px solid var(--ink);
+    background:var(--paper);
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:background .25s ease, transform .15s ease;
+  }
+  .play-btn:hover{background:var(--lantern); transform:scale(1.05);}
+  .play-btn svg{width:1.1rem; height:1.1rem;}
+  .narration-text p{
+    margin:0;
+    line-height:1.65;
+    font-size:1.02rem;
+  }
+  .narration-label{
+    font-family:'Courier Prime', monospace;
+    font-size:0.65rem;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--river-deep);
+    margin:0 0 0.4rem;
+  }
+  .significance h4{
+    font-family:'Courier Prime', monospace;
+    font-size:0.72rem;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--rust);
+    margin:0 0 0.8rem;
+    padding-bottom:0.4rem;
+    border-bottom:1px solid rgba(35,32,27,0.25);
+  }
+  .significance ul{
+    margin:0;
+    padding:0;
+    list-style:none;
+  }
+  .significance li{
+    position:relative;
+    padding-left:1.3rem;
+    margin-bottom:0.75rem;
+    line-height:1.55;
+    font-size:0.94rem;
+  }
+  .significance li::before{
+    content:"";
+    position:absolute;
+    left:0;
+    top:0.42rem;
+    width:7px;
+    height:7px;
+    background:var(--rust);
+  }
+  .panel-nav{
+    display:flex;
+    justify-content:space-between;
+    margin-top:2rem;
+    padding-top:1.2rem;
+    border-top:1px solid rgba(35,32,27,0.25);
+    font-family:'Courier Prime', monospace;
+    font-size:0.75rem;
+  }
+  .panel-nav button{
+    background:none;
+    border:none;
+    color:var(--ink);
+    cursor:pointer;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    padding:0.3rem 0;
+  }
+  .panel-nav button:disabled{opacity:0.25; cursor:default;}
+  .panel-nav button:not(:disabled):hover{color:var(--rust);}
+
+  footer{
+    text-align:center;
+    padding:2rem;
+    font-family:'Courier Prime', monospace;
+    font-size:0.68rem;
+    color:#7a715c;
+    border-top:1px solid rgba(35,32,27,0.2);
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .journal{animation:none;}
+    .marker circle.dot{transition:none;}
+  }
